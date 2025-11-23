@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.resc": "shellscript",
+        "*.tmpl": "html",
+        "adafruit_tlv320dac3100.h": "c",
+        "cstdint": "cpp",
+        "config": "cpp"
+    }
+}

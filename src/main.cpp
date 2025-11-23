@@ -1,58 +1,52 @@
 #include <Arduino.h>
+#include "pin_configs.h"
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
-#include <Adafruit_TLV320DAC3100.h>
-
-#include <AudioOutputI2S.h>
-#include <AudioFileSourcePROGMEM.h>
-#include <AudioGeneratorFLAC.h>
-#include "sample.h"
-
-#define LED_PIN GPIO_NUM_38
-#define USER_BUTTON GPIO_NUM_21
-
-AudioOutputI2S *out;
-AudioFileSourcePROGMEM *file;
-AudioGeneratorFLAC *flac;
+#include "DAC.hpp"
+#include "SDSPI.hpp"
+Adafruit_TLV320DAC3100 DAC;
 volatile bool toPlay = false;
 
 void ARDUINO_ISR_ATTR playPauseState()
 {
   toPlay = !toPlay;
-  gpio_set_level(LED_PIN, toPlay);
+  gpio_set_level(pLED, toPlay);
+  // DAC.enableBeep(toPlay);
 }
 
 void userBtnSetup(void *pvParameters)
 {
   Serial.println("Setting up the Pins!");
-  gpio_reset_pin(LED_PIN);
-  gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
-
-  gpio_set_direction(USER_BUTTON, GPIO_MODE_INPUT);
+  gpio_reset_pin(pLED);
+  gpio_set_direction(pLED, GPIO_MODE_OUTPUT);
+  gpio_set_direction(pUSER_BTN, GPIO_MODE_INPUT);
   Serial.println("Done up the Pins!");
-  attachInterrupt(USER_BUTTON, playPauseState, RISING);
+  attachInterrupt(pUSER_BTN, playPauseState, CHANGE);
   Serial.println("Attached the interrupt");
   vTaskDelete(NULL);
 }
 
-void playFLAC(void *pvParameters)
+void gamepadParsing(void *pvParameters)
 {
-  file = new AudioFileSourcePROGMEM(sample_flac, sample_flac_len);
-  out = new AudioOutputI2S();
-  flac = new AudioGeneratorFLAC();
-  flac->begin(file, out);
-}
+  Serial.println("Begin the player");
 
+  vTaskDelete(NULL);
+}
 void setup()
 {
-  Serial.begin();
+  Serial.begin(115200);
   Serial.println("Start!");
-  xTaskCreate(userBtnSetup, "userBtnSetup", 4000, NULL, 1, NULL);
-  // xTaskCreate(playFLAC, "playFLAC", 1000, NULL, 1, NULL);
-  Serial.println("Stop!");
+  SDCardSetup();
+  // DAC = setupDAC();
+  // DAC.setChannelVolume(true,-5);
+  // DAC.setChannelVolume(false,-5);
+  // audioSetup();
+  // // xTaskCreate(userBtnSetup, "userBtnSetup", 32000, NULL, 1, NULL);
+  // xTaskCreate(playFile, "playFLAC", 8000, NULL, 1, NULL);
   delay(10000);
+  Serial.println("Stop!");
 }
 
 void loop()
