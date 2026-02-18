@@ -8,12 +8,20 @@ FsFile root;
 void SDCardSetup()
 {
 
-  Serial.print("Type any character to start\n");
+  while (!Serial)
+  {
+    yield();
+  }
+  Serial.println("Type any character to start");
   while (!Serial.available()) {
     yield();
   }
 
-    // Initialize the SD card.
+  pinMode(pSD_GND, OUTPUT);
+  digitalWrite(pSD_GND,LOW);
+  pinMode(pSPI_CS, OUTPUT);
+  SPI.begin(pSPI_SCK, pSPI_MISO, pSPI_MOSI, pSPI_CS);
+  // Initialize the SD card.
   if (!sd.begin(SD_CONFIG)) {
     sd.initErrorHalt(&Serial);
   }

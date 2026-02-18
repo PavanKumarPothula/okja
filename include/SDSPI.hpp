@@ -8,9 +8,8 @@
 #include <SdFat.h>
 #include "pin_configs.h"
 #define SD_FAT_TYPE 3
-const uint8_t SD_CS_PIN = pSPI_CS;
-#define SPI_CLOCK SD_SCK_MHZ(80)
-#define SD_CONFIG SdSpiConfig(SD_CS_PIN, DEDICATED_SPI, SPI_CLOCK)
+#define SPI_CLOCK SD_SCK_MHZ(4)
+#define SD_CONFIG SdSpiConfig(pSPI_CS)
 
 void SDCardSetup();
 

@@ -20,11 +20,19 @@
 // GAMEPAD
 #define pGAMEPAD_IRQ GPIO_NUM_13
 
-// SPI pins for SD card
+// SDIO pins for SD card
 #define pSPI_SCK GPIO_NUM_2
 #define pSPI_MISO GPIO_NUM_3
 #define pSPI_MOSI GPIO_NUM_10
 #define pSPI_CS GPIO_NUM_11
+
+#define pSD_GND GPIO_NUM_1
+#define pSD_CLK GPIO_NUM_2
+#define pSD_D0 GPIO_NUM_3
+#define pSD_CMD GPIO_NUM_10
+#define pSD_D3 GPIO_NUM_11
+#define pSD_D2 GPIO_NUM_12
+#define pSD_D1 GPIO_NUM_13
 
 /*ESP32S3*/
 #define PIN_LCD_BL 38

@@ -4,5 +4,5 @@
 
 Adafruit_TLV320DAC3100 setupDAC();
 void audioSetup();
-void playFile(void *);
+void player(void *);
 #endif // AUDIO_HPP

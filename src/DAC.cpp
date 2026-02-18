@@ -131,7 +131,7 @@ void audioSetup()
     Serial.println("Done Setting up Audio");
 }
 
-void playFile(void *)
+void player(void *)
 {
     flac->begin(fileP, dacOut);
     while (1)

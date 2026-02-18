@@ -38,13 +38,16 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("Start!");
+  
   SDCardSetup();
-  // DAC = setupDAC();
-  // DAC.setChannelVolume(true,-5);
-  // DAC.setChannelVolume(false,-5);
-  // audioSetup();
-  // // xTaskCreate(userBtnSetup, "userBtnSetup", 32000, NULL, 1, NULL);
-  // xTaskCreate(playFile, "playFLAC", 8000, NULL, 1, NULL);
+
+  DAC = setupDAC();
+  DAC.setChannelVolume(true,-5);
+  DAC.setChannelVolume(false,-5);
+  audioSetup();
+  
+  // xTaskCreate(userBtnSetup, "userBtnSetup", 32000, NULL, 1, NULL);
+  xTaskCreate(player, "player", 8000, NULL, 1, NULL);
   delay(10000);
   Serial.println("Stop!");
 }
