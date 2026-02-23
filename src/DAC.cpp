@@ -6,12 +6,14 @@
 #include <AudioFileSourcePROGMEM.h>
 #include <AudioGeneratorFLAC.h>
 #include <sample.h>
+
+Adafruit_TLV320DAC3100 DAC;
 AudioOutputI2S *dacOut;
 // AudioFileSourceSPIFFS *sdCardFS;
 AudioGeneratorFLAC *flac;
 AudioFileSourcePROGMEM *fileP;
 
-Adafruit_TLV320DAC3100 setupDAC()
+Adafruit_TLV320DAC3100 DACHWSetup()
 {
     Serial.begin();
     Adafruit_TLV320DAC3100 codec; // Create codec object
@@ -119,7 +121,7 @@ Adafruit_TLV320DAC3100 setupDAC()
     return codec;
 }
 
-void audioSetup()
+void DACSWSetup()
 {
     Serial.println("Setting up Audio");
     fileP = new AudioFileSourcePROGMEM(sample_flac, sample_flac_len);
@@ -133,7 +135,14 @@ void audioSetup()
 
 void player(void *)
 {
+
+    DAC = DACHWSetup();
+    DAC.setChannelVolume(true, -5);
+    DAC.setChannelVolume(false, -5);
+    DACSWSetup();
+
     flac->begin(fileP, dacOut);
+
     while (1)
     {
         if (flac->isRunning())

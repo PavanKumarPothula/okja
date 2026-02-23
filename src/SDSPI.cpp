@@ -13,25 +13,33 @@ void SDCardSetup()
     yield();
   }
   Serial.println("Type any character to start");
-  while (!Serial.available()) {
+  while (!Serial.available())
+  {
     yield();
   }
 
   pinMode(pSD_GND, OUTPUT);
-  digitalWrite(pSD_GND,LOW);
+  digitalWrite(pSD_GND, LOW);
   pinMode(pSPI_CS, OUTPUT);
   SPI.begin(pSPI_SCK, pSPI_MISO, pSPI_MOSI, pSPI_CS);
   // Initialize the SD card.
-  if (!sd.begin(SD_CONFIG)) {
+  if (!sd.begin(SD_CONFIG))
+  {
     sd.initErrorHalt(&Serial);
   }
-
-  Serial.print("\nList of files on the SD.\n");
-  sd.ls("/",LS_R);
 
   // spi.begin(pSPI_SCK, pSPI_MISO, pSPI_MOSI, pSPI_CS);
   // pinMode(spi.pinSS(), OUTPUT);
   // if(!SD.begin(CS, spi, SPI_SPEED)){
   //     Serial.println("Card mount failed!");
   // }
+}
+
+void filesystem(void *)
+{
+  SDCardSetup();
+  Serial.print("\nList of files on the SD.\n");
+  sd.ls("/", LS_R);
+  
+  vTaskDelete(NULL);
 }

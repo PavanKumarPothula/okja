@@ -6,7 +6,6 @@
 
 #include "DAC.hpp"
 #include "SDSPI.hpp"
-Adafruit_TLV320DAC3100 DAC;
 volatile bool toPlay = false;
 
 void ARDUINO_ISR_ATTR playPauseState()
@@ -34,20 +33,15 @@ void gamepadParsing(void *pvParameters)
 
   vTaskDelete(NULL);
 }
+
 void setup()
 {
   Serial.begin(115200);
   Serial.println("Start!");
-  
-  SDCardSetup();
-
-  DAC = setupDAC();
-  DAC.setChannelVolume(true,-5);
-  DAC.setChannelVolume(false,-5);
-  audioSetup();
-  
+    
   // xTaskCreate(userBtnSetup, "userBtnSetup", 32000, NULL, 1, NULL);
   xTaskCreate(player, "player", 8000, NULL, 1, NULL);
+  xTaskCreate(filesystem, "filesystem", 8000, NULL, 1, NULL);
   delay(10000);
   Serial.println("Stop!");
 }
