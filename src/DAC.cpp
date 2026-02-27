@@ -133,7 +133,7 @@ void DACSWSetup()
     Serial.println("Done Setting up Audio");
 }
 
-void player(void *)
+void player_task(void *)
 {
 
     DAC = DACHWSetup();

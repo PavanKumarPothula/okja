@@ -6,6 +6,8 @@
 
 #include "DAC.hpp"
 #include "SDSPI.hpp"
+#include "Display.hpp"
+
 volatile bool toPlay = false;
 
 void ARDUINO_ISR_ATTR playPauseState()
@@ -36,12 +38,14 @@ void gamepadParsing(void *pvParameters)
 
 void setup()
 {
+  Serial.setTxTimeoutMs(0);
   Serial.begin(115200);
+  sleep(1); // Wait a bit for Serial to become ready. Printing immediately doesn't work
   Serial.println("Start!");
-    
+
   // xTaskCreate(userBtnSetup, "userBtnSetup", 32000, NULL, 1, NULL);
-  xTaskCreate(player, "player", 8000, NULL, 1, NULL);
-  xTaskCreate(filesystem, "filesystem", 8000, NULL, 1, NULL);
+  xTaskCreate(player_task, "player_task", 8000, NULL, 1, NULL);
+  xTaskCreate(filesystem_task, "filesystem_task", 8000, NULL, 1, NULL);
   delay(10000);
   Serial.println("Stop!");
 }

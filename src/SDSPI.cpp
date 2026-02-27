@@ -35,7 +35,7 @@ void SDCardSetup()
   // }
 }
 
-void filesystem(void *)
+void filesystem_task(void *)
 {
   SDCardSetup();
   Serial.print("\nList of files on the SD.\n");

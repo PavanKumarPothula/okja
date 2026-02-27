@@ -12,5 +12,5 @@
 #define SD_CONFIG SdSpiConfig(pSPI_CS)
 
 void SDCardSetup();
-void filesystem(void *);
+void filesystem_task(void *);
 #endif // SDSPI_HPP

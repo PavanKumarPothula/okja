@@ -58,8 +58,14 @@
 #define PIN_BUTTON_2 14
 #define PIN_BAT_VOLT 4
 
-#define PIN_IIC_SCL 17
-#define PIN_IIC_SDA 18
-
 #define PIN_TOUCH_INT 16
 #define PIN_TOUCH_RES 21
+
+/* LCD CONFIG */
+#define EXAMPLE_LCD_PIXEL_CLOCK_HZ   (6528000) //(10 * 1000 * 1000)
+// The pixel number in horizontal and vertical
+#define LCD_HOR_RES                  320
+#define LCD_VER_RES                  170
+#define LVGL_LCD_BUF_SIZE            (LCD_HOR_RES * LCD_VER_RES)
+#define EXAMPLE_PSRAM_DATA_ALIGNMENT 64
+#define LVGL_TICK_PERIOD_MS          2

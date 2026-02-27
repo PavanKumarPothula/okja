@@ -4,5 +4,5 @@
 
 Adafruit_TLV320DAC3100 DACHWSetup();
 void DACSWSetup();
-void player(void *);
+void player_task(void *);
 #endif // AUDIO_HPP
