@@ -7,6 +7,7 @@
 #include "DAC.hpp"
 #include "SDSPI.hpp"
 #include "Display.hpp"
+#include "GamePad.hpp"
 
 volatile bool toPlay = false;
 
@@ -38,15 +39,20 @@ void gamepadParsing(void *pvParameters)
 
 void setup()
 {
-  Serial.setTxTimeoutMs(0);
+
+  // Serial.setTxTimeoutMs(0);
   Serial.begin(115200);
-  sleep(1); // Wait a bit for Serial to become ready. Printing immediately doesn't work
+  while (!Serial)
+  {
+     // Wait a bit for Serial to become ready. Printing immediately doesn't work
+      delay(100);
+  }
   Serial.println("Start!");
 
-  // xTaskCreate(userBtnSetup, "userBtnSetup", 32000, NULL, 1, NULL);
-  xTaskCreate(player_task, "player_task", 8000, NULL, 1, NULL);
-  xTaskCreate(filesystem_task, "filesystem_task", 8000, NULL, 1, NULL);
-  xTaskCreate(display_task, "display_task", 8000, NULL, 1, NULL);
+  // xTaskCreate(player_task, "player_task", 8000, NULL, 1, NULL);
+  // xTaskCreate(filesystem_task, "filesystem_task", 8000, NULL, 1, NULL);
+  // xTaskCreate(display_task, "display_task", 8000, NULL, 1, NULL);
+  xTaskCreate(gamepad_task, "gamepad_task", 8000, NULL, 1, NULL);
   delay(20000);
   Serial.println("Stop!");
 }

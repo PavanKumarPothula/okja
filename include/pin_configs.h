@@ -18,7 +18,10 @@
 #define pDAC_RST GPIO_NUM_43
 
 // GAMEPAD
-#define pGAMEPAD_IRQ GPIO_NUM_13
+// We are (re-)using DAC_RST pin
+// Once it sends the reset 
+// signal to the DAC.
+#define pGAMEPAD_IRQ GPIO_NUM_43 
 
 // SDIO pins for SD card
 #define pSPI_SCK GPIO_NUM_2
@@ -34,9 +37,8 @@
 #define pSD_D2 GPIO_NUM_12
 #define pSD_D1 GPIO_NUM_13
 
-/*ESP32S3*/
+// DISPLAY Pins
 #define PIN_LCD_BL 38
-
 #define PIN_LCD_D0 39
 #define PIN_LCD_D1 40
 #define PIN_LCD_D2 41
@@ -45,25 +47,20 @@
 #define PIN_LCD_D5 46
 #define PIN_LCD_D6 47
 #define PIN_LCD_D7 48
-
-#define PIN_LCD_POWER                15
-
+#define PIN_LCD_POWER 15
 #define PIN_LCD_RES 5
 #define PIN_LCD_CS 6
 #define PIN_LCD_DC 7
 #define PIN_LCD_WR 8
 #define PIN_LCD_RD 9
-
 #define PIN_BUTTON_1 0
 #define PIN_BUTTON_2 14
 #define PIN_BAT_VOLT 4
-
 #define PIN_TOUCH_INT 16
 #define PIN_TOUCH_RES 21
 
-/* LCD CONFIG */
+// LCD CONFIG
 #define EXAMPLE_LCD_PIXEL_CLOCK_HZ   (6528000) //(10 * 1000 * 1000)
-// The pixel number in horizontal and vertical
 #define LCD_HOR_RES                  320
 #define LCD_VER_RES                  170
 #define LVGL_LCD_BUF_SIZE            (LCD_HOR_RES * LCD_VER_RES)
