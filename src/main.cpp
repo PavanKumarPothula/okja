@@ -46,7 +46,8 @@ void setup()
   // xTaskCreate(userBtnSetup, "userBtnSetup", 32000, NULL, 1, NULL);
   xTaskCreate(player_task, "player_task", 8000, NULL, 1, NULL);
   xTaskCreate(filesystem_task, "filesystem_task", 8000, NULL, 1, NULL);
-  delay(10000);
+  xTaskCreate(display_task, "display_task", 8000, NULL, 1, NULL);
+  delay(20000);
   Serial.println("Stop!");
 }
 

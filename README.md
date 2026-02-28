@@ -42,3 +42,6 @@
                                                                        +--------------------------------+
 
 ```
+
+# Thanks to 
+- [TobiKr](https://github.com/TobiKr) for [the display driver + lvgl template](https://github.com/TobiKr/T-Display-S3-ModernBasicTemplate)

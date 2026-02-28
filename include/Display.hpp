@@ -1,37 +1,30 @@
 #pragma once
-#ifndef DISPLAY_HPP
-#define AUDIO_HPP
-
 // Code inspired by: https://github.com/KamranAghlami/T-Display-S3/blob/main/src/hardware/display.h
 
 #include <memory>
-#include <Arduino.h>
 #include <lvgl.h>
+#include "pin_configs.h"
 #include <esp_lcd_panel_io.h>
 
-#include "pin_configs.h"
 
 // https://github.com/Xinyuan-LilyGO/T-Display-S3/issues/74
-class Backlight
-{
+class Backlight {
     uint8_t pin;
     uint8_t level = 0;
 
 public:
     /// @brief Constructs a backlight by configuring the corresponding pin as an output
-    /// @param pin The physical pin responsible for the backlight
-    Backlight(uint8_t pin) : pin(pin)
-    {
+    /// @param pin The physical pin responsible for the backlight 
+    Backlight(uint8_t pin) : pin(pin) {
         pinMode(pin, OUTPUT);
     };
 
     /// @brief Deconstructs the backlight by configuring its pin as an input
-    ~Backlight()
-    {
+    ~Backlight() {
         pinMode(pin, INPUT);
     };
 
-    /// @brief Sets the brightness of the backlight
+    /// @brief Sets the brightness of the backlight 
     /// @param level A brightness level in the range [0; 255]. The perceived brightness is not a linear function of this value, however. A significant jump in visibility happens around a value of 45.
     void set_brightness(uint8_t level);
 };
@@ -46,8 +39,8 @@ struct lcd_message
 // Display implemented as a Meyers' Singleton: https://www.modernescpp.com/index.php/creational-patterns-singleton/
 class Display
 {
-    lv_display_t *display = nullptr;
-    std::pair<void *, void *> draw_buffers = {nullptr, nullptr};
+    lv_display_t * display = nullptr;
+    std::pair<void*, void*> draw_buffers = {nullptr, nullptr};
 
     esp_lcd_i80_bus_handle_t i80_bus = nullptr;
     esp_lcd_panel_io_handle_t io_handle = nullptr;
@@ -74,10 +67,10 @@ class Display
     ~Display();
 
 public:
-    Display(const Display &) = delete;            // No copying
-    Display(Display &&) = delete;                 // No moving
-    Display &operator=(const Display &) = delete; // No copy assignment
-    Display &operator=(Display &&) = delete;      // No move assignment
+    Display(const Display&) = delete;              // No copying
+    Display(Display&&) = delete;                   // No moving
+    Display& operator = (const Display&) = delete; // No copy assignment
+    Display& operator = (Display&&) = delete;      // No move assignment
 
     /// @brief Initialize display and LVGL
     static void init();
@@ -88,6 +81,7 @@ public:
     /// @return Height of the display
     uint16_t get_height();
 
+    
     /// @brief Sets the brightness of the backlight
     /// @param level A brightness level in the range [0; 255]. The perceived brightness is not a linear function of this value, however. A significant jump in visibility happens around a value of 45.
     static void set_backlight(uint8_t level);
@@ -98,12 +92,12 @@ public:
     /// @param y_start Top target coordinate
     /// @param y_end Bottom target coordinate
     /// @param data The image data
-    static void draw_image(uint16_t x_start, uint16_t x_end, uint16_t y_start, uint16_t y_end, uint16_t *data);
+    static void draw_image(uint16_t x_start, uint16_t x_end, uint16_t y_start, uint16_t y_end, uint16_t* data);
 
     /// @brief Sends a command to the display
     /// @param message The command to send and its parameters
-    void send_command(const lcd_message &message);
+    void send_command(const lcd_message& message);
 };
-
+void setupDisplay();
 void ui_init();
-#endif
+void display_task(void *);

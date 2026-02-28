@@ -7,17 +7,6 @@ FsFile root;
 #define error(s) sd.errorHalt(&Serial, F(s))
 void SDCardSetup()
 {
-
-  while (!Serial)
-  {
-    yield();
-  }
-  Serial.println("Type any character to start");
-  while (!Serial.available())
-  {
-    yield();
-  }
-
   pinMode(pSD_GND, OUTPUT);
   digitalWrite(pSD_GND, LOW);
   pinMode(pSPI_CS, OUTPUT);
